@@ -18,11 +18,9 @@ angular.module('SignupCtrl',['appRoutes'])
                 else{
                     $scope.class="alert-success"
                     $scope.status=response.data.message
-                    setTimeout(function () {
                         console.log("Redirecting to Login Page")
                         $location.path('/')
 
-                    },100)
                 }
 
 
