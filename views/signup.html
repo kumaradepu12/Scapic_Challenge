@@ -1,0 +1,22 @@
+<div ng-controller="signupCtrl" class="col-md-6 container-fluid">
+    <form ng-submit="signup(user)" class="nav navbar-default">
+        <div class="form-group">
+            <label class="" >First Name</label>
+            <input type="text" class="form-control" ng-init="Kumar"  ng-model="user.firstName" required>
+            <label class="" >Last Name</label>
+            <input type="text" class="form-control" placeholder="Enter Last Name" value="Adepu" ng-model="user.lastName" required>
+        </div>
+        <div class="form-group">
+            <label class="" >Email</label>
+            <input type="email" class="form-control" placeholder="Enter Email address" value="kmr@gmail.com" ng-model="user.email" required>
+        </div>
+        <div class="form-group">
+            <label class="" >Passwprd</label>
+            <input type="password" class="form-control" placeholder="Enter password" value="12345" ng-model="user.password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">SignUp</button>
+    </form>
+    <p><span class="{{class}}">{{status}}</span>
+
+
+</div>
