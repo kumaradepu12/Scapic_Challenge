@@ -12,7 +12,6 @@
     <script src="controllers/routes.js"></script>
     <script src="controllers/scapicCtrl.js"></script>
     <script src="controllers/loginCtrl.js"></script>
-    <script src="controllers/signupCtrl.js"></script>
 
     <script src="js/bootstrap.js"></script>
     <link rel="stylesheet" href="stylesheet/bootstrap.css">
@@ -38,7 +37,7 @@
         </div>
         <div class="row text-center">
             <div class="col-md-5">
-                <a href="/api/auth/facebook"><img style="width: 200px; height: 70px;padding-top: 10px;" src="images/facebook.png"></a>
+                <a href="" ng-click="facebookLogin()"><img style="width: 200px; height: 70px;padding-top: 10px;" src="images/facebook.png"></a>
             </div>
             <div class="col-md-5">
                 <a ng-click="googleLogin()" href=""><img style="width: 200px; height: 120px;padding-bottom: 45px;" src="images/glogin.png"></a>

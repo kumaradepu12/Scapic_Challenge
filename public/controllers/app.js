@@ -1,1 +1,1 @@
-var app=angular.module('scapic',['appRoutes','scapicCtrl','LoginCtrl','SignupCtrl'])
+var app=angular.module('scapic',['appRoutes','scapicCtrl','LoginCtrl'])

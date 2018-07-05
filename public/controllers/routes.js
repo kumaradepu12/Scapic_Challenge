@@ -5,7 +5,11 @@ var app=angular.module('appRoutes',['ngRoute'])
                 templateUrl:'index.html'
             })
             .when('/google/:token',{
-                templateUrl:'profile.html',
+                templateUrl:'sample.html',
+                controller:"loginctrl"
+            })
+            .when('/facebook/:token',{
+                templateUrl:'sample.html',
                 controller:"loginctrl"
             })
             .when('/profile',{
@@ -13,7 +17,6 @@ var app=angular.module('appRoutes',['ngRoute'])
             })
             .when('/signup',{
                 templateUrl:'signup.html',
-                controller:'signupCtrl'
             })
             .otherwise('/')
         $locationProvider.html5Mode(true);

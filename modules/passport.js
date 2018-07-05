@@ -1,11 +1,12 @@
 var db=require('./dbconnection')
-var GoogleStrategy=require('passport-google-oauth').OAuth2Strategy
 var jwt=require('jsonwebtoken')
 var session=require('express-session')
 var secrate_key="ScapicChallenge"
 var config=require('../config')
 var User=null;
 var token=null;
+var GoogleStrategy=require('passport-google-oauth').OAuth2Strategy,
+    FacebookStrategy=require('passport-facebook').Strategy
 db.mongoConnect(function (err,db) {
     if(err) throw err;
     User=db.collection("user");
@@ -48,12 +49,28 @@ module.exports=function (app,passport) {
             })
     }))
 
+    passport.use(new FacebookStrategy({
+        clientID        : config.Facebook.clientID,
+        clientSecret    : config.Facebook.clientSecret,
+        callbackURL     : config.Facebook.callbackURL
+    },function (accessToken,refreshToken,profile,done) {
+        console.log(profile)
+        return done(null,profile)
+
+    }))
+
     app.get('/auth/google',passport.authenticate('google', { scope: [
             'https://www.googleapis.com/auth/userinfo.profile',
             'https://www.googleapis.com/auth/userinfo.email'
         ] }),(req,res)=>{});
     app.get('/auth/google/callback',passport.authenticate('google', {failureRedirect: '/loginfailed' }),function (err,res) {
         res.redirect('/google/'+token);
+
+    })
+
+    app.get('/auth/facebook',passport.authenticate('facebook'))
+    app.get('/auth/facebook/callback',passport.authenticate('facebook',{failureRedirect:'/loginfailed'}),function (err,res) {
+        res.redirect('/facebook/'+token)
 
     })
     return passport;

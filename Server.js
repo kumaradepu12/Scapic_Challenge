@@ -15,7 +15,9 @@ app.use(express.static(path.join(__dirname,'public')))
 app.use(express.static(path.join(__dirname,'views')))
 app.use('/api',appRoutes)
 
-app.get('*',function (req,res) {
+app.get('/*',function (req,res) {
+
+    console.log("******************8")
     res.sendFile(path.join(__dirname,'views/index.html'))
 
 })

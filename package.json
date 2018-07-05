@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon Server.js"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "jsonwebtoken": "^8.3.0",
     "mongodb": "^2.2.35",
     "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
     "passport-google-oauth": "^1.0.0"
   }
 }
