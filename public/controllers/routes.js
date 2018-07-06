@@ -31,27 +31,7 @@ var app=angular.module('appRoutes',['ngRoute'])
 app.run(['$rootScope','Auth','$location',function ($rootScope,Auth,$location) {
     $rootScope.$on('$routeChangeStart',function (event,next,current) {
         if(Auth.isLoggedin()){
-            console.log("when('/',{\n" +
-                "                templateUrl:'index.html'\n" +
-                "            })\n" +
-                "            .when('/google/:token',{\n" +
-                "                templateUrl:'sample.html',\n" +
-                "                controller:\"loginctrl\"\n" +
-                "            })\n" +
-                "            .when('/facebook/:token',{\n" +
-                "                templateUrl:'sample.html',\n" +
-                "                controller:\"loginctrl\"\n" +
-                "            })\n" +
-                "            .when('/profile',{\n" +
-                "                templateUrl:'profile.html',\n" +
-                "            })\n" +
-                "            .when('/signup',{\n" +
-                "                templateUrl:'signup.html',\n" +
-                "            })\n" +
-                "            .when('/loginfailed',{\n" +
-                "                templateUrl:'sample.html',\n" +
-                "                controller:\"loginctrl\"\n" +
-                "            })")
+
             $location.path('/profile')
         }
         else $location.path('/')
