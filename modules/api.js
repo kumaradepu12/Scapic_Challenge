@@ -8,7 +8,7 @@ var User=db.mongoConnect(function (err,db) {
 var jwt=require('jsonwebtoken')
 var secrate_key="ScapicChallenge";
 module.exports=function (router) {
-    router.use(function (req,res,next) {
+    function verifytoken(req,res,next) {
         // console.log(req.headers)
         if(!req.headers['autherization']){
             res.status(401).send("UnAuthorized Request")
@@ -36,8 +36,8 @@ module.exports=function (router) {
 
 
 
-    })
-    router.get('/me',function (req,res) {
+    }
+    router.get('/me',verifytoken,function (req,res) {
         console.log("here")
         console.log(req.decoded)
         res.send(req.decoded)
@@ -52,20 +52,15 @@ module.exports=function (router) {
         User.findOne({_id:user._id},function (err,exist) {
             if(err) throw err;
             if(exist){
-                res.json({success:false,message:"User already existed"})
+                res.status(401).send({success:false,message:"User already existed"})
             }
             else{
                 User.insertOne(user,function (err,inserted) {
-                    token=jwt.sign(user,secrate_key)
                     if(err) throw err;
-                    res.json({success:true,message:"Successfully registered"})
-
+                    res.status(200).send({success:true,message:"Successfully registered"})
                 })
             }
-
         })
-
-
     })
     router.post('/login',function (req,res) {
         console.log(req.body)
@@ -76,10 +71,10 @@ module.exports=function (router) {
                     token=jwt.sign(user,secrate_key)
                     res.status(200).send({token})
                 }
-                else res.json({success:false,msg:"Password does not match"})
+                else res.status(401).send({msg:"Password does not match"})
             }
             else{
-                res.json({success:false,msg:"User does not registered"})
+                res.status(401).send({msg:"User does not registered"})
             }
 
 

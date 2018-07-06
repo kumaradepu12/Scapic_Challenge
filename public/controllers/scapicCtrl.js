@@ -9,8 +9,8 @@ var app=angular.module('scapicCtrl',['AuthServices'])
                         $scope.user = {
                             email: data._id,
                             Name: data.Name,
-                            pic: data.pic
                         }
+                        $scope.user.pic=(data.pic)?data.pic:'images/person.png'
                     }
                     else{
                         Authtoken.settoken()
@@ -20,10 +20,8 @@ var app=angular.module('scapicCtrl',['AuthServices'])
 
                 })
             }
-            else {
-                console.log("Not Logged In")
-                $location.path('/')
-            }
+            else console.log(Auth.isLoggedin())
+
 
         })
 
@@ -37,14 +35,15 @@ var app=angular.module('scapicCtrl',['AuthServices'])
         $scope.login=function (user) {
             console.log(user)
             $http.post('/api/login',user).then(function (response) {
-                $scope.check=true;
-                if(!response.data.success){
+                if(response.status===200)
+                {
+                    $scope.clas="alert-success"
+                    Authtoken.settoken(response.data.token)
+                    $location.path('/profile')
+                }
+                else {
                     $scope.class="alert-danger"
                     $scope.msg=response.data.msg
-                }
-                else{
-                    $scope.clas="alert-success"
-                    $location.path('/profile')
                 }
             },function (err) {
                 throw err;
@@ -55,20 +54,16 @@ var app=angular.module('scapicCtrl',['AuthServices'])
         $scope.signup=function (user) {
             console.log(user)
             $http.post('/api/signup',user).then(function (response) {
-                console.log(response.data)
-                $scope.check=true
-                if(!response.data.success){
-                    $scope.class="alert-warning"
-                    $scope.status=response.data.message
-                }
-                else{
+                if(response.status===200){
                     $scope.class="alert-success"
                     $scope.status=response.data.message
                     console.log("Redirecting to Login Page")
                     $location.path('/')
-
                 }
-
+                else {
+                    $scope.class="alert-warning"
+                    $scope.status=response.data.message
+                }
 
             },function (err) {
                 console.log(err)
