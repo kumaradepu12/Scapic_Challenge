@@ -1,7 +1,7 @@
 {
   "Facebook":{
-    "clientID":236736793793149,
-    "clientSecret":"140bbf4dcfc0917791175598f640a474",
+    "clientID":2188792211393364,
+    "clientSecret":"e88a50e007638d07d0b2d8de6421ff92",
     "callbackURL":"http://127.0.0.1:8000/auth/facebook/callback"
   },
   "Google":{

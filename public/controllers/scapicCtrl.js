@@ -1,5 +1,31 @@
-var app=angular.module('scapicCtrl',[])
-    .controller("scapicctrl",function ($window,$scope,$http,$location) {
+var app=angular.module('scapicCtrl',['AuthServices'])
+    .controller("scapicctrl",function ($window,$scope,$http,$location,Auth,Authtoken) {
+        $scope.$on('$routeChangeStart', function(event,next,current) {
+            if(Auth.isLoggedin()){
+                Auth.getuser().then(function (data) {
+                    console.log(data)
+                    if(data.success!==false) {
+                        console.log("GETUSER")
+                        $scope.user = {
+                            email: data._id,
+                            Name: data.Name,
+                            pic: data.pic
+                        }
+                    }
+                    else{
+                        Authtoken.settoken()
+                        console.log("Not Valid User")
+                        $location.path('/')
+                    }
+
+                })
+            }
+            else {
+                console.log("Not Logged In")
+                $location.path('/')
+            }
+
+        })
 
         $scope.googleLogin=function () {
             $window.location=$window.location.protocol + '//' + $window.location.host + '/auth/google';

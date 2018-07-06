@@ -52,7 +52,8 @@ module.exports=function (app,passport) {
     passport.use(new FacebookStrategy({
         clientID        : config.Facebook.clientID,
         clientSecret    : config.Facebook.clientSecret,
-        callbackURL     : config.Facebook.callbackURL
+        callbackURL     : config.Facebook.callbackURL,
+        profileFields   : ['id','displayName','link','photos','email']
     },function (accessToken,refreshToken,profile,done) {
         console.log(profile)
         return done(null,profile)
@@ -68,7 +69,7 @@ module.exports=function (app,passport) {
 
     })
 
-    app.get('/auth/facebook',passport.authenticate('facebook'))
+    app.get('/auth/facebook',passport.authenticate('facebook',{scope:['email']}))
     app.get('/auth/facebook/callback',passport.authenticate('facebook',{failureRedirect:'/loginfailed'}),function (err,res) {
         res.redirect('/facebook/'+token)
 

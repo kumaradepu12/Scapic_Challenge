@@ -5,16 +5,50 @@ var User=db.mongoConnect(function (err,db) {
     User=db.collection("user")
 
 })
+var jwt=require('jsonwebtoken')
+var secrate_key="ScapicChallenge";
 module.exports=function (router) {
+    router.use(function (req,res,next) {
+        // console.log(req.headers)
+        if(!req.headers['autherization']){
+            res.status(401).send("UnAuthorized Request")
+        }
+        else{
+            var token=req.headers.autherization;
+            console.log(token)
+            if(token===null || token===undefined){
+                res.json({success:false,msg:"UnAuthorized Request"})
+            }
+            else{
+                jwt.verify(token,secrate_key,function (err,decoded) {
+                    if(err) {
+                        res.json({success:false,msg:"UnAuthorized Request"})
+                    }
+                    else{
+                        req.decoded=decoded
+                        next()
+                    }
+                })
+
+            }
+
+        }
 
 
+
+    })
+    router.get('/me',function (req,res) {
+        console.log("here")
+        console.log(req.decoded)
+        res.send(req.decoded)
+
+    })
     router.post('/signup',function (req,res) {
-
     var user={
             _id:req.body.email,
             Name:req.body.firstName+" "+req.body.lastName,
             password:req.body.password
-    }
+            }
         User.findOne({_id:user._id},function (err,exist) {
             if(err) throw err;
             if(exist){
@@ -22,6 +56,7 @@ module.exports=function (router) {
             }
             else{
                 User.insertOne(user,function (err,inserted) {
+                    token=jwt.sign(user,secrate_key)
                     if(err) throw err;
                     res.json({success:true,message:"Successfully registered"})
 
@@ -38,7 +73,8 @@ module.exports=function (router) {
             if(err) throw err;
             if(user){
                 if(user.password===req.body.password){
-                    res.json({success:true,user:user})
+                    token=jwt.sign(user,secrate_key)
+                    res.status(200).send({token})
                 }
                 else res.json({success:false,msg:"Password does not match"})
             }
@@ -49,6 +85,8 @@ module.exports=function (router) {
 
         })
     })
+
+
 
 
     return router
